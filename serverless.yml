@@ -1,0 +1,196 @@
+service: recharge-proxy
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  timeout: 12
+  logRetentionInDays: 14
+  profile: ${self:custom.profiles.${sls:stage}}
+  environment:
+    API_KEY: ${file(./configs.${sls:stage}.yml):apiKey}
+    RECHARGE_API_URL: ${file(./configs.${sls:stage}.yml):rechargeApiUrl}
+    RECHARGE_API_KEY_COLLECTION: ${file(./configs.${sls:stage}.yml):rechargeApiKeyCollection}
+  apiGateway:
+    apiKeys:
+      - recharge-proxy-api-key
+
+layers: 
+  base-layer:
+    path: base-layer
+    name: recharge-proxy-base-layer
+    
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
+plugins:
+  - serverless-offline
+  # - serverless-domain-manager
+
+custom:
+  profiles:
+    dev: my-dev
+    prod: my-prod
+  serverless-offline:
+    apiKey: TyobSaMcn1JetBFgCewUI58ZDl5aBsaucFo4qRc0
+  # customDomain:
+  #   domainName: recharge-uk.drsquatchservices.com
+  #   basePath: ''
+  #   createRoute53Record: true
+  #   certificateName: '*.drsquatchservices.com'
+
+functions:
+  getCustomer:
+    handler: functions.getCustomer
+    events:
+      - http:
+          path: /customer
+          method: get
+          request:
+            parameters:
+              querystrings:
+                email: true
+          cors: true
+          private: true
+  updateCustomer:
+    handler: functions.updateCustomer
+    events:
+      - http:
+          path: /customer/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  getCustomerResource:
+    handler: functions.getCustomerResource
+    events:
+      - http:
+          path: /customer/{id}/{resource}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+                resource: true
+          cors: true
+          private: true
+  addSubscription:
+    handler: functions.addSubscription
+    events:
+      - http:
+          path: /subscription
+          method: post
+          cors: true
+          private: true
+  updateSubscription:
+    handler: functions.updateSubscription
+    events:
+      - http:
+          path: /subscription/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  cancelSubscription:
+    handler: functions.cancelSubscription
+    events:
+      - http:
+          path: /subscription/{id}/cancel
+          method: post
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  addOnetime:
+    handler: functions.addOnetime
+    events:
+      - http:
+          path: /onetime
+          method: post
+          request:
+            parameters:
+              querystrings:
+                addressId: true
+          cors: true
+          private: true
+  updateOnetime:
+    handler: functions.updateOnetime
+    events:
+      - http:
+          path: /onetime/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  cancelOnetime:
+    handler: functions.cancelOnetime
+    events:
+      - http:
+          path: /onetime/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  addAddress:
+    handler: functions.addAddress
+    events:
+      - http:
+          path: /address
+          method: post
+          request:
+            parameters:
+              querystrings:
+                customerId: true
+          cors: true
+          private: true
+  updateAddress:
+    handler: functions.updateAddress
+    events:
+      - http:
+          path: /address/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  getCharges:
+    handler: functions.getCharges
+    events:
+      - http:
+          path: /charge
+          method: get
+          cors: true
+          private: true
+  updateCharge:
+    handler: functions.updateCharge
+    events:
+      - http:
+          path: /charge/{id}
+          method: post
+          request:
+            parameters:
+              paths:
+                id: true
+              querystrings:
+                action: true
+          cors: true
+          private: true

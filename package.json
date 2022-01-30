@@ -1,0 +1,17 @@
+{
+  "name": "recharge-proxy",
+  "version": "2.0.0",
+  "description": "Recharge Proxy service created for new AWS setups",
+  "main": "functions.js",
+  "dependencies": {
+    "axios": "^0.25.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Hwang",
+  "license": "ISC"
+}
