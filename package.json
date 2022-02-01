@@ -4,9 +4,11 @@
   "description": "Recharge Proxy service created for new AWS setups",
   "main": "functions.js",
   "dependencies": {
-    "axios": "^0.25.0"
+    "axios": "^0.25.0",
+    "serverless": "^3.0.1"
   },
   "devDependencies": {
+    "serverless-domain-manager": "^5.8.0",
     "serverless-offline": "^8.4.0"
   },
   "scripts": {

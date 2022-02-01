@@ -1,15 +1,8 @@
 "use strict";
 const axios = require("axios");
 
-const SELF_API_KEY = process.env.API_KEY;
 const BASE_URL = process.env.RECHARGE_API_URL;
 const API_KEY_COLLECTION = process.env.RECHARGE_API_KEY_COLLECTION.split(";");
-
-// function validateHeaderCredentials (headers) {
-//   headers = headers || {};
-//   const key = headers["X-API-KEY"] || headers["X-Api-Key"] || headers["x-api-key"] || "";
-//   return SELF_API_KEY === key;
-// }
 
 function rechargeCall(method, endpoint, data) {
   const apiKey = API_KEY_COLLECTION[initApiKeyIndex(API_KEY_COLLECTION.length)];
@@ -70,6 +63,7 @@ function sendResponse(status, data) {
 
 // Get customer by email address
 module.exports.getCustomer = async (event, context) => {
+  console.log(event);
   const email = event.queryStringParameters && event.queryStringParameters.email;
   if (!email) {
     return sendResponse(400, "missing parameter: email");
