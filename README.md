@@ -1,1 +1,74 @@
-recharge-proxy
+# Recharge Proxy API
+AWS Lambda functions to serve as Recharge Proxy API, together with corresponding API Gateway setup.
+
+## Installation
+```bash
+npm install
+```
+### Prerequisites
+- Node.js12
+- Serverless framework ([Documentation](https://www.serverless.com/framework/docs/)): for deployment to AWS Lambda. Configuration details are found in `serverless.yml`
+
+### Environemental Variables
+- API_KEY: a string of API key for authentication (of this service), coming in from request headers
+- RECHARGE_API_URL: a string of Recharge API URL
+- RECHARGE_API_KEY_COLLECTION: string of Recharge API keys, separated by ";"
+
+## Usage
+Current base URL:  https://recharge.squatch-services.com
+
+#### Customer
+```
+GET /customer
+GET /customer/{id}/{resource}
+PUT /customer/{id}
+```
+- Retrieve a customer: query parameter `email` required
+- Retrieve a customer resource: possible values for path parameter {resource} are `addresses`, `subscriptions`, `payment_sources`. Retrieving `subscriptions` will return onetimes as well.
+- Update a customer
+
+#### Subscription
+```
+POST /subscription
+PUT /subscription/{id}
+POST /subscription/${id}/cancel
+```
+- Create a subscription
+- Update a subscription
+- Cancel a subscription
+
+#### Onetime
+```
+POST /onetime
+PUT /onetime/{id}
+DELETE /onetime/{id}
+```
+- Add a onetime: query parameter `addressId` required
+- Update a onetime
+- Cancel a onetime
+
+#### Address
+```
+POST /address
+PUT /address/{id}
+```
+- Add an address: query parameter `customerId` required. It calls a Recharge endpoint `/customers/{customer_id}/addresses`
+- Update an address: query parameter `apply_discount_id`, `remove_discount_id` optional. It calls a Recharge endpoint `/addresses/{id}/apply_discount` or
+`/addresses/{id}/remove_discount` 
+
+#### Charges
+```
+GET /charge
+POST /charge/{id}?action={action}
+```
+- Get charges: see list of optional query parameters [here](https://developer.rechargepayments.com/?shell#list-charges)
+- Update charge: required query paramterer `action`, which currently accepts only `apply_discount` or `remove_discount`; for more informaton, see [here](https://developer.rechargepayments.com/2021-11/charges/apply_discount)
+
+For specifics on data, see Recharge API [documentation](https://developer.rechargepayments.com/?shell#introduction) See 
+
+### Authenticaton
+Via a header
+```javascript
+{ "X-Api-Key": "API key" }
+```
+
