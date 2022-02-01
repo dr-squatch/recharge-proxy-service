@@ -23,7 +23,7 @@ sls deploy --aws-profie=[profile alias] --stage=[stage name] --configure=[server
 - RECHARGE_API_KEY_COLLECTION: string of Recharge API keys, separated by ";"
 
 ## Usage
-Current base URL:  https://recharge.squatch-services.com
+Current base URL:  https://recharge.[dev or prod].squatch-services.com
 
 #### Customer
 ```
