@@ -5,7 +5,7 @@ AWS Lambda functions to serve as Recharge Proxy API, together with corresponding
 ```bash
 npm install   # install package 
 sls offline   # testing locally using Serverless Offline
-sls deploy --aws-profie=[profile alias] --stage=[stage name] # deploying to AWS
+sls deploy --aws-profie=[profile alias] --stage=[stage name] --store=["us" or "uk"] # deploying to AWS
 ```
 - Create a profile for each stage (dev and prod) using AWS CLI and `~/.aws/credentials`
 - Credentials are to be avaialble in AWS SSO console
