@@ -1,13 +1,21 @@
 # Recharge Proxy API
 AWS Lambda functions to serve as Recharge Proxy API, together with corresponding API Gateway setup.
 
-## Installation
+## Installation & Development
 ```bash
-npm install
+npm install   # install package 
+sls offline   # testing locally using Serverless Offline
+sls deploy --aws-profie=[profile alias] --stage=[stage name] # deploying to AWS
 ```
+- Create a profile for each stage (dev and prod) using AWS CLI and `~/.aws/credentials`
+- Credentials are to be avaialble in AWS SSO console
+- See https://chariotsolutions.com/blog/post/managing-aws-users-and-roles-in-a-multi-account-organization/
+
 ### Prerequisites
 - Node.js12
-- Serverless framework ([Documentation](https://www.serverless.com/framework/docs/)): for deployment to AWS Lambda. Configuration details are found in `serverless.yml`
+- Serverless framework ([Documentation](https://www.serverless.com/framework/docs/)): Configuration details are found in `serverless.yml`
+- Plugin: serverless-offline ([Documentation](https://www.npmjs.com/package/serverless-offline))
+- Plugin: severless-custom-domain ([Documentation](https://www.npmjs.com/package/serverless-domain-manager))
 
 ### Environemental Variables
 - API_KEY: a string of API key for authentication (of this service), coming in from request headers
