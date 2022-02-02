@@ -63,6 +63,7 @@ function sendResponse(status, data) {
 
 // Get customer by email address
 module.exports.getCustomer = async (event, context) => {
+  console.log(event);
   const email = event.queryStringParameters && event.queryStringParameters.email;
   if (!email) {
     return sendResponse(400, "missing parameter: email");
