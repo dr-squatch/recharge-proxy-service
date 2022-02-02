@@ -1,4 +1,4 @@
-service: recharge-proxy
+service: recharge-proxy-uk # UK-specific
 
 provider:
   name: aws
@@ -6,26 +6,26 @@ provider:
   timeout: 12
   logRetentionInDays: 14
   environment:
-    RECHARGE_API_URL: ${file(./configs.yml):rechargeApiUrl}
-    RECHARGE_API_KEY_COLLECTION: ${file(./configs.yml):rechargeApiKeyCollection}
+    RECHARGE_API_URL: ${file(./configs-uk.yml):rechargeApiUrl}
+    RECHARGE_API_KEY_COLLECTION: ${file(./configs-uk.yml):rechargeApiKeyCollection}
   apiGateway:
     apiKeys:
-      - recharge-proxy-api-key
+      - recharge-proxy-uk-api-key # UK-specific
   layers:
   # Dev
-    # - arn:aws:lambda:us-east-1:231804121198:layer:basic:1
+    # - { Ref: BasicLambdaLayer }
   # Prod
-    # - arn:aws:lambda:us-east-1:008448474167:layer:basic:1
+    - arn:aws:lambda:us-east-1:008448474167:layer:basic:1
 
   tags:
     serviceName: recharge-proxy
-    store: us  
+    store: uk
 
 # For creating new
 # layers:
 #   basic:
 #     path: base-layer
-
+    
 package:
   exclude:
     - node_modules/**
@@ -41,7 +41,7 @@ custom:
     dev: my-dev
     prod: my-prod
   customDomain:
-    domainName: recharge.${sls:stage}.squatch-services.com
+    domainName: recharge-uk.${sls:stage}.squatch-services.com # UK-specific
     basePath: ''
     certificateName: ${sls:stage}.squatch-services.com
     createRoute53Record: true 

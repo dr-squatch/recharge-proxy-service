@@ -6,4 +6,5 @@ jspm_packages
 .serverless
 
 base-layer
-configs.*.yml
+configs.yml
+configs-uk.yml
