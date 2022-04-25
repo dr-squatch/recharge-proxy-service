@@ -8,8 +8,7 @@ sls offline   # testing locally using Serverless Offline
 sls deploy --aws-profie=[profile alias] --stage=[stage name] --config=[serverless config file of choice, per store] # deploying to AWS
 ```
 - Create a profile for each stage (dev and prod) using AWS CLI and `~/.aws/credentials`
-- Credentials are to be avaialble in AWS SSO console
-- See https://chariotsolutions.com/blog/post/managing-aws-users-and-roles-in-a-multi-account-organization/
+- See https://drsquatch.atlassian.net/wiki/spaces/DSE/pages/1159168001/AWS+accounts+organizations+IAM+users+and+roles
 
 ### Prerequisites
 - Node.js12
