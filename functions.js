@@ -157,6 +157,22 @@ module.exports.cancelSubscription = async (event, context) => {
   return sendResponse(res.statusCode, res.statusCode === 200 ? res.data.subscription : res.data);
 };
 
+// Activate subscription
+module.exports.activateSubscription = async (event, context) => {
+  const subId = event.pathParameters && event.pathParameters.id;
+  if (!subId) {
+    return sendResponse(400, "missing path parameter(s)");
+  }
+  const endpoint = `subscriptions/${subId}/activate`;
+  const res = await makeApiCall(
+    "POST",
+    endpoint,
+    {},
+    context
+  );
+  return sendResponse(res.statusCode, res.statusCode === 200 ? res.data.subscription : res.data);
+};
+
 // Add onetime
 module.exports.addOnetime = async (event, context) => {
   const addressId = event.queryStringParameters && event.queryStringParameters.addressId;
@@ -291,7 +307,6 @@ module.exports.getDiscount = async (event, context) => {
   if (!discountId) {
     return sendResponse(400, "missing path parameter(s)");
   }
-
   const res = await makeApiCall(
     "GET",
     `discounts/${discountId}`,

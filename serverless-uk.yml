@@ -13,18 +13,18 @@ provider:
       - recharge-proxy-uk-api-key # UK-specific
   layers:
   # Dev
-    # - { Ref: BasicLambdaLayer }
+    - { Ref: BasicLambdaLayer }
   # Prod
-    - arn:aws:lambda:us-east-1:008448474167:layer:basic:1
+    # - arn:aws:lambda:us-east-1:008448474167:layer:basic:1
 
   tags:
     serviceName: recharge-proxy
     store: uk
 
 # For creating new
-# layers:
-#   basic:
-#     path: base-layer
+layers:
+  basic:
+    path: base-layer
     
 package:
   exclude:
@@ -112,6 +112,18 @@ functions:
     events:
       - http:
           path: /subscription/{id}/cancel
+          method: post
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  activateSubscription:
+    handler: functions.activateSubscription
+    events:
+      - http:
+          path: /subscription/{id}/activate
           method: post
           request:
             parameters:
