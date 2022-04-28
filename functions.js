@@ -173,6 +173,22 @@ module.exports.activateSubscription = async (event, context) => {
   return sendResponse(res.statusCode, res.statusCode === 200 ? res.data.subscription : res.data);
 };
 
+// Delete subscription
+module.exports.deleteSubscription = async (event, context) => {
+  const subId = event.pathParameters && event.pathParameters.id;
+  if (!subId) {
+    return sendResponse(400, "missing path parameter(s)");
+  }
+  const endpoint = `subscriptions/${subId}`;
+  const res = await makeApiCall(
+    "DELETE",
+    endpoint,
+    {},
+    context
+  );
+  return sendResponse(res.statusCode, res.data);
+};
+
 // Add onetime
 module.exports.addOnetime = async (event, context) => {
   const addressId = event.queryStringParameters && event.queryStringParameters.addressId;

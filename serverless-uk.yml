@@ -131,6 +131,18 @@ functions:
                 id: true
           cors: true
           private: true
+  deleteSubscription:
+    handler: functions.deleteSubscription
+    events:
+      - http:
+          path: /subscription/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
   addOnetime:
     handler: functions.addOnetime
     events:
