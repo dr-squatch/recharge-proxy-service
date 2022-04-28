@@ -13,7 +13,7 @@ provider:
       - recharge-proxy-api-key
   layers:
   # Dev
-    # - arn:aws:lambda:us-east-1:231804121198:layer:basic:1
+    - arn:aws:lambda:us-east-1:231804121198:layer:basic:1
   # Prod
     # - arn:aws:lambda:us-east-1:008448474167:layer:basic:1
 
@@ -113,6 +113,30 @@ functions:
       - http:
           path: /subscription/{id}/cancel
           method: post
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  activateSubscription:
+    handler: functions.activateSubscription
+    events:
+      - http:
+          path: /subscription/{id}/activate
+          method: post
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+          private: true
+  deleteSubscription:
+    handler: functions.deleteSubscription
+    events:
+      - http:
+          path: /subscription/{id}
+          method: delete
           request:
             parameters:
               paths:
